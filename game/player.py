@@ -1,31 +1,26 @@
 import pygame
 
 class Player:
-    def __init__(self, x, ground_y, width=30, height=40):
+    def __init__(self, x, ground_y):
         self.x = x
         self.ground_y = ground_y
-        self.width = width
-        self.height = height
-        self.y = ground_y - height
+        self.width = 30
+        self.height = 30
+        self.y = ground_y - self.height
         self.vy = 0
-        self.gravity = 0.8
-        self.jump_strength = -15
-        self.on_ground = True
+        self.gravity = 0.6
+        self.jump_velocity = -11
 
     def jump(self):
-        if self.on_ground:
-            self.vy = self.jump_strength
-            self.on_ground = False
+        if self.y >= self.ground_y - self.height:
+            self.vy = self.jump_velocity
 
     def update(self):
         self.vy += self.gravity
         self.y += self.vy
-
-        ground_level = self.ground_y - self.height
-        if self.y >= ground_level:
-            self.y = ground_level
+        if self.y > self.ground_y - self.height:
+            self.y = self.ground_y - self.height
             self.vy = 0
-            self.on_ground = True
 
     def rect(self):
-        return pygame.Rect(self.x, self.y, self.width, self.height)
+        return pygame.Rect(int(self.x), int(self.y), self.width, self.height)
